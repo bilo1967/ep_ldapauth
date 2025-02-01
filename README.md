@@ -21,7 +21,9 @@ Add to settings.json:
             "groupAttributeIsDN": true,
             "searchScope": "sub",
             "groupSearch": "(&(cn=admin)(objectClass=groupOfNames))",
-            "anonymousReadonly": false
+            "anonymousReadonly": false,
+            // The following is optional. You can also set it to false to ignore peer certificates
+            "tls_ca_file": "/path/to/yourcert.pem"
         }
     },
 
