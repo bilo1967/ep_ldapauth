@@ -40,7 +40,13 @@ exports.authenticate = function(hook_name, context, cb) {
     };
 
     if (typeof(settings.users.ldapauth.tls_ca_file) !== 'undefined') {
-      myLdapAuthOpts.tls_ca = fs.readFileSync(settings.users.ldapauth.tls_ca_file);
+      // If tls_ca_file is set to false, then unauthorized client certificates will be ignored (see also lib/MyLdapAuth.js)
+      if (settings.users.ldapauth.tls_ca_file == false) {
+        myLdapAuthOpts.tls_ca = false;
+      } else {
+        // Info: the tls_ca_file must be in PEM format
+        myLdapAuthOpts.tls_ca = fs.readFileSync(settings.users.ldapauth.tls_ca_file);
+      }
     }
 
     var authenticateLDAP = new MyLdapAuth(myLdapAuthOpts);
